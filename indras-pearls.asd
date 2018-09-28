@@ -1,11 +1,14 @@
 ;;;; indras-pearls.asd
 
 (asdf:defsystem #:indras-pearls
-  :description "Describe indras-pearls here"
-  :author "Your Name <your.name@example.com>"
-  :license "Specify license here"
-  :depends-on (#:vecto)
+  :description "Code for making the fractals found in \"Indra's Pearls: The Vision of Felix Klein\" "
+  :author "David Bjergaard <dbjergaard@gmail.com>"
+  :license "GPLv3"
+  :depends-on (#:vecto
+	       #:cl-colors)
   :serial t
   :components ((:file "package")
+	       (:file "linear-algebra")
+	       (:file "moebius")
+	       (:file "draw")
                (:file "indras-pearls")))
-

@@ -4,32 +4,6 @@
 
 ;;; "indras-pearls" goes here. Hacks and glory await!
 
-(defun mag (c)
-  (sqrt (+ (expt (realpart c) 2) 
-	   (expt (imagpart c) 2))))
-
-(defun gradient-bilinear-example (file)
-  (vecto:with-canvas (:width 200 :height 50)
-    (vecto:set-gradient-fill 25 0
-                       1 0 0 1
-                       175 0
-                       1 0 0 0
-                       :domain-function 'vecto:bilinear-domain)
-    (vecto:rectangle 0 0 200 50)
-    (vecto:fill-path)
-    (vecto:save-png file)))
-
-(defun hexagon (sf x0 y0)
-  (let ((X '(3/2 0 -3/2 -3/2 0 3/2 3/2))
-	(Y (mapcar (lambda (x) (* (sqrt 3) x)) '(1/2 1 1/2 -1/2 -1 -1/2 1/2 1/2))))
-    (vecto:move-to (+ (* sf (first X)) x0) 
-		   (+ (* sf (first Y)) y0))
-    (mapc (lambda (x y)
-	    (vecto:line-to (+ (* sf x) x0) 
-			   (+ (* sf y) y0))) 
-	  (rest X) (rest Y)))
-        (vecto:stroke))
-
 (defun tiled-hexagons (file)
   (let ((w 400)
 	(h 400)
@@ -43,17 +17,30 @@
 			      (+ (* sf l 1.5 (sqrt 3))  (/ h 2)))))
       (vecto:save-png file))))
 
-(defun circle (x y r)
-  (vecto:centered-circle-path x y r)
-  (vecto:stroke))
-
 (defun circles (file)
   (let ((w 400)
 	(h 400)
-	(r 100))
+	(r 400)
+	(c1 (make-circle :cen #C(1.16 0.91) :rad 1))
+	(c2 (make-circle :cen #C(-1.16 -0.91) :rad 1))
+	(mT (make-moebius-matrix :a #C(1 -.5)
+				 :b 0.04
+				 :c 0.39
+				 :d #C(1 -.5)))
+	(mT2 (make-moebius-matrix :a #C(1 -.5)
+				 :b -0.04
+				 :c -0.39
+				 :d #C(1 -.5)))
+	
+	(coffee (cl-colors:as-rgb "c0ffee"))
+	(black (cl-colors:as-rgb "000000")))
     (vecto:with-canvas (:width w :height h)
+      (vecto:translate (/ w 2) (/ h 2))
       (vecto:set-rgb-stroke 0 0 0)
-      (circle (/ w 2) (/ h 2) r)
+      (loop for i from 1 to 600
+	 do
+	   (plot-circle c1 coffee r)
+	   (plot-circle c2 black r)
+	   (setq c1 (moebius-on-circle mT c1)
+		 c2 (moebius-on-circle mT2 c2)))
       (vecto:save-png file))))
-
-
