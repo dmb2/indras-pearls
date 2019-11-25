@@ -1,20 +1,20 @@
 (in-package #:indras-tests)
 
-(defvar *mT* (indras-pearls::make-moebius-matrix
+(defvar *mT* (indras-pearls::make-mb-matrix
 	      :a #C(2 1) :b #C(1 2) :c #C(4 0) :d #C(3 -1)))
 
 (fiasco:deftest moebius-struct () 
-  (let ((A (indras-pearls::make-moebius-matrix))
-	(B (indras-pearls::make-moebius-matrix :a #C(1.0 0.0))))
+  (let ((A (indras-pearls::make-mb-matrix))
+	(B (indras-pearls::make-mb-matrix :a #C(1.0 0.0))))
     (is (not (equal A B))) 
-    (is (not (equal (indras-pearls::moebius-matrix-a A) 
-		    (indras-pearls::moebius-matrix-a B)))) 
-    (is (equal (indras-pearls::moebius-matrix-b A) 
-	       (indras-pearls::moebius-matrix-b B))) 
-    (is (equal (indras-pearls::moebius-matrix-c A) 
-	       (indras-pearls::moebius-matrix-c B))) 
-    (is (equal (indras-pearls::moebius-matrix-d A) 
-	       (indras-pearls::moebius-matrix-d B)))))
+    (is (not (equal (indras-pearls::mb-matrix-a A) 
+		    (indras-pearls::mb-matrix-a B)))) 
+    (is (equal (indras-pearls::mb-matrix-b A) 
+	       (indras-pearls::mb-matrix-b B))) 
+    (is (equal (indras-pearls::mb-matrix-c A) 
+	       (indras-pearls::mb-matrix-c B))) 
+    (is (equal (indras-pearls::mb-matrix-d A) 
+	       (indras-pearls::mb-matrix-d B)))))
 
 (fiasco:deftest cmag ()
   (is (= 5.0 (mag #C(3 4))))

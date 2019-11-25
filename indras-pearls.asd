@@ -5,10 +5,13 @@
   :author "David Bjergaard <dbjergaard@gmail.com>"
   :license "GPLv3"
   :depends-on (#:vecto
+	       #:dufy
+	       #:alexandria
 	       #:cl-colors)
   :serial t
   :components ((:file "package")
 	       (:file "linear-algebra")
+	       (:file "color")
 	       (:file "moebius")
 	       (:file "draw")
                (:file "indras-pearls")))
